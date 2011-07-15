@@ -1,7 +1,10 @@
 #ifndef ZUIPEDIT_H
 #define ZUIPEDIT_H
 
-#include <QMainWindow>
+#include <QtGui/QMainWindow>
+
+class PresentationModel;
+class QGraphicsScene;
 
 namespace Ui {
   class ZuipEdit;
@@ -23,6 +26,8 @@ protected:
 
 private:
   Ui::ZuipEdit *ui;
+  QGraphicsScene *m_scene;
+  PresentationModel *m_presentation;
 };
 
 #endif // ZUIPEDIT_H

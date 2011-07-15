@@ -1,4 +1,6 @@
-set(zuip_edit_SRCS zuipedit.cpp main.cpp)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+set(zuip_edit_SRCS presentationmodel.cpp zuipedit.cpp main.cpp)
 set(zuip_edit_UI zuipedit.ui)
 
 qt4_automoc(${zuip_edit_SRCS})
