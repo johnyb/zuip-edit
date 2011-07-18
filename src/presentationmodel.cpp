@@ -26,6 +26,10 @@
 
 #include "presentationmodel.h"
 
+#include <QtGui/QGraphicsItem>
+#include <QtCore/QFile>
+#include <QtCore/QDebug>
+
 PresentationModel::PresentationModel(const QString& fileName, QObject* parent)
   : QObject(parent)
 {
@@ -39,7 +43,62 @@ PresentationModel::~PresentationModel()
 
 void PresentationModel::load(const QString& fileName)
 {
+  QFile file(fileName);
+  if (!file.open(QIODevice::ReadOnly))
+    return;
+  if (!m_svgDoc.setContent(&file)) {
+    qWarning() << "Couldn’t load" << file.fileName();
+    file.close();
+    return;
+  }
+  file.close();
+}
 
+QList< QGraphicsItem* > PresentationModel::assets() const
+{
+  return QList<QGraphicsItem*>();
+}
+
+QRectF PresentationModel::viewBox() const
+{
+  if (m_svgDoc.isNull())
+    return QRectF();
+
+  QDomElement root = rootSvgElement();
+
+  if (root.isNull())
+    return QRectF();
+
+  QRectF viewBox;
+  QString vBoxString = root.attribute(QLatin1String("viewBox"), QLatin1String("0 0 0 0"));
+  QStringList vBoxValues = vBoxString.split(' ');
+  viewBox.setLeft(vBoxValues[0].toDouble());
+  viewBox.setTop(vBoxValues[1].toDouble());
+  viewBox.setWidth(vBoxValues[2].toDouble());
+  viewBox.setHeight(vBoxValues[3].toDouble());
+  return viewBox;
+}
+
+QString PresentationModel::title() const
+{
+//   QDomNodeList list = rootSvgElement().elementsByTagNameNS(rootSvgElement().attribute(QLatin1String("xmlns:dc")),QLatin1String("title"));
+  QDomNodeList list = rootSvgElement().elementsByTagName(QLatin1String("dc:title"));
+  if (list.size() != 1)
+    return QString();
+
+  if (list.at(0).isElement())
+    return list.at(0).toElement().text();
+
+  return QString();
+}
+
+QDomElement PresentationModel::rootSvgElement() const
+{
+  QDomNodeList list = m_svgDoc.elementsByTagName(QLatin1String("svg"));
+  if (list.size() > 0)
+    return list.at(0).toElement();
+
+  return QDomElement();
 }
 
 #include "presentationmodel.moc"

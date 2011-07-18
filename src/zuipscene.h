@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2011 Julian Bäume <julian@svg4all.de>
+    Copyright (c) 2011 Julian Bäume <baeume@imis.uni-luebeck.de>
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation
@@ -23,34 +23,38 @@
     OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#ifndef ZUIPSCENE_H
+#define ZUIPSCENE_H
 
-#ifndef PRESENTATIONMODEL_H
-#define PRESENTATIONMODEL_H
+#include <QtGui/QGraphicsScene>
 
-#include <QDomDocument>
-#include <QtCore/QObject>
+class PresentationModel;
 
-class QRectF;
-class QGraphicsItem;
-
-class PresentationModel : public QObject
+/**
+ * A scene to render a presentation with zoomable user interface (ZUI)
+ *
+ * This scene also provides editing features for the presentation.
+ */
+class ZuipScene : public QGraphicsScene
 {
   Q_OBJECT
 public:
-  PresentationModel(const QString& fileName, QObject* parent = 0);
-  virtual ~PresentationModel();
+  ZuipScene(PresentationModel* presentation = 0);
+  virtual ~ZuipScene();
 
-  QList<QGraphicsItem*> assets() const;
-  QRectF viewBox() const;
+  /**
+    * Set a presentation model for this scene. It will get all information from the
+    * model and visualise it.
+    *
+    * @param presentation - the model containing a ZUI Presentation
+    */
+  void setPresentation(PresentationModel* presentation);
+
   QString title() const;
 
-protected:
-  QDomElement rootSvgElement() const;
-
 private:
-  void load(const QString& fileName);
-
-  QDomDocument m_svgDoc;
+  PresentationModel *m_model;
+  void reload();
 };
 
-#endif // PRESENTATIONMODEL_H
+#endif // ZUIPSCENE_H

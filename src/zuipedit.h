@@ -3,8 +3,7 @@
 
 #include <QtGui/QMainWindow>
 
-class PresentationModel;
-class QGraphicsScene;
+class ZuipScene;
 
 namespace Ui {
   class ZuipEdit;
@@ -26,8 +25,7 @@ protected:
 
 private:
   Ui::ZuipEdit *ui;
-  QGraphicsScene *m_scene;
-  PresentationModel *m_presentation;
+  ZuipScene *m_scene;
 };
 
 #endif // ZUIPEDIT_H

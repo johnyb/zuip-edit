@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2011 Julian Bäume <julian@svg4all.de>
+    Copyright (c) 2011 Julian Bäume <baeume@imis.uni-luebeck.de>
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation
@@ -23,34 +23,45 @@
     OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include "zuipscene.h"
+#include "presentationmodel.h"
 
-#ifndef PRESENTATIONMODEL_H
-#define PRESENTATIONMODEL_H
+#include <QtGui/QGraphicsItem>
 
-#include <QDomDocument>
-#include <QtCore/QObject>
-
-class QRectF;
-class QGraphicsItem;
-
-class PresentationModel : public QObject
+ZuipScene::ZuipScene(PresentationModel* presentation)
+  : m_model(presentation)
 {
-  Q_OBJECT
-public:
-  PresentationModel(const QString& fileName, QObject* parent = 0);
-  virtual ~PresentationModel();
+  reload();
+}
 
-  QList<QGraphicsItem*> assets() const;
-  QRectF viewBox() const;
-  QString title() const;
+ZuipScene::~ZuipScene()
+{
+  delete m_model;
+}
 
-protected:
-  QDomElement rootSvgElement() const;
+void ZuipScene::setPresentation(PresentationModel* presentation)
+{
+  m_model = presentation;
+  reload();
+}
 
-private:
-  void load(const QString& fileName);
+void ZuipScene::reload()
+{
+  if (!m_model)
+    return;
 
-  QDomDocument m_svgDoc;
-};
+  setSceneRect(m_model->viewBox());
+  foreach(QGraphicsItem* item, m_model->assets()){
+    addItem(item);
+  }
+}
 
-#endif // PRESENTATIONMODEL_H
+QString ZuipScene::title() const
+{
+  if (!m_model)
+    return QString();
+
+  return m_model->title();
+}
+
+#include "zuipscene.moc"

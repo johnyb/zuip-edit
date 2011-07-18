@@ -1,20 +1,19 @@
 #include "zuipedit.h"
 #include "ui_zuipedit.h"
+#include "zuipscene.h"
+#include "presentationmodel.h"
 
 #include <QtGui/QFileDialog>
-#include <QtGui/QGraphicsScene>
 #include <QtSvg/QGraphicsSvgItem>
 #include <QtSvg/QSvgRenderer>
 #include <QtCore/QDebug>
-#include "presentationmodel.h"
 
 ZuipEdit::ZuipEdit(QWidget *parent)
   : QMainWindow(parent),
-    ui(new Ui::ZuipEdit),
-    m_presentation(0)
+    ui(new Ui::ZuipEdit)
 {
   ui->setupUi(this);
-  m_scene = new QGraphicsScene();
+  m_scene = new ZuipScene();
   ui->graphicsView->setScene(m_scene);
   connect(ui->actionImportFromFile,SIGNAL(triggered(bool)),this,SLOT(importFile()));
 }
@@ -33,10 +32,8 @@ void ZuipEdit::importFile()
 
 void ZuipEdit::importFile(const QString& fileName)
 {
-  if (m_presentation) {
-    delete m_presentation;
-  }
-  m_presentation = new PresentationModel(fileName);
+  m_scene->setPresentation(new PresentationModel(fileName));
+  ui->titleEdit->setText(m_scene->title());
 }
 
 #include "zuipedit.moc"
