@@ -56,16 +56,16 @@ void PresentationModel::load(const QString& fileName)
 
 QList< QGraphicsItem* > PresentationModel::assets() const
 {
+  QDomElement root = rootSvgElement();
+  if (root.isNull())
+    return QList<QGraphicsItem*>();
+
   return QList<QGraphicsItem*>();
 }
 
 QRectF PresentationModel::viewBox() const
 {
-  if (m_svgDoc.isNull())
-    return QRectF();
-
   QDomElement root = rootSvgElement();
-
   if (root.isNull())
     return QRectF();
 
@@ -94,6 +94,9 @@ QString PresentationModel::title() const
 
 QDomElement PresentationModel::rootSvgElement() const
 {
+  if (m_svgDoc.isNull())
+    return QDomElement();
+
   QDomNodeList list = m_svgDoc.elementsByTagName(QLatin1String("svg"));
   if (list.size() > 0)
     return list.at(0).toElement();
