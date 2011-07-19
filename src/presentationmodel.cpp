@@ -127,6 +127,19 @@ QGraphicsItem* PresentationModel::createGraphicsItem(const QDomElement& element)
   if (!id.isEmpty())
     item->setElementId(id);
 
+  item->setFlags( QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable );
+
+  QRegExp re(QLatin1String("^translate\\((.+),(.+)\\) scale\\((.+)\\)$"));
+  re.indexIn(element.attribute(QLatin1String("transform")));
+  // re.capturedTexts should be of the for: (complete string, x, y, scale)
+  qreal x = re.cap(1).toDouble();
+  qreal y = re.cap(2).toDouble();
+  qreal scale = re.cap(3).toDouble();
+  //move item center to parsed coordinates
+  QPointF pos = QPointF(x,y) - item->boundingRect().center();
+  item->setPos(pos);
+  item->setScale(scale);
+
   return item;
 }
 
