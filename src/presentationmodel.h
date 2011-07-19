@@ -30,6 +30,8 @@
 #include <QDomDocument>
 #include <QtCore/QObject>
 
+class QSvgRenderer;
+class QGraphicsItem;
 class QRectF;
 class QGraphicsItem;
 
@@ -49,8 +51,10 @@ protected:
 
 private:
   void load(const QString& fileName);
+  QGraphicsItem* createGraphicsItem(const QDomElement& element) const;
 
   QDomDocument m_svgDoc;
+  QSvgRenderer* m_renderer;
 };
 
 #endif // PRESENTATIONMODEL_H

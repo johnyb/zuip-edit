@@ -29,16 +29,19 @@
 #include <QtGui/QGraphicsItem>
 #include <QtCore/QFile>
 #include <QtCore/QDebug>
+#include <QtSvg/QGraphicsSvgItem>
+#include <QSvgRenderer>
 
 PresentationModel::PresentationModel(const QString& fileName, QObject* parent)
-  : QObject(parent)
+  : QObject(parent),
+    m_renderer(0)
 {
   load(fileName);
 }
 
 PresentationModel::~PresentationModel()
 {
-
+  delete m_renderer;
 }
 
 void PresentationModel::load(const QString& fileName)
@@ -52,15 +55,26 @@ void PresentationModel::load(const QString& fileName)
     return;
   }
   file.close();
+
+  delete m_renderer;
+  m_renderer = 0;
+  m_renderer = new QSvgRenderer(fileName);
 }
 
 QList< QGraphicsItem* > PresentationModel::assets() const
 {
+  QList<QGraphicsItem*> result;
   QDomElement root = rootSvgElement();
   if (root.isNull())
-    return QList<QGraphicsItem*>();
+    return result;
 
-  return QList<QGraphicsItem*>();
+  QDomNodeList list = root.elementsByTagName(QLatin1String("g"));
+  for (int i=0; i<list.size(); i++){
+    if (list.at(i).isElement() && list.at(i).toElement().attribute(QLatin1String("class")).contains(QLatin1String("content"))){
+      result << createGraphicsItem(list.at(i).toElement());
+    }
+  }
+  return result;
 }
 
 QRectF PresentationModel::viewBox() const
@@ -81,6 +95,7 @@ QRectF PresentationModel::viewBox() const
 
 QString PresentationModel::title() const
 {
+//   somehow namespaces seem to be broken or i’m using them wrong
 //   QDomNodeList list = rootSvgElement().elementsByTagNameNS(rootSvgElement().attribute(QLatin1String("xmlns:dc")),QLatin1String("title"));
   QDomNodeList list = rootSvgElement().elementsByTagName(QLatin1String("dc:title"));
   if (list.size() != 1)
@@ -102,6 +117,17 @@ QDomElement PresentationModel::rootSvgElement() const
     return list.at(0).toElement();
 
   return QDomElement();
+}
+
+QGraphicsItem* PresentationModel::createGraphicsItem(const QDomElement& element) const
+{
+  QGraphicsSvgItem* item = new QGraphicsSvgItem();
+  item->setSharedRenderer(m_renderer);
+  QString id = element.attribute(QLatin1String("id"));
+  if (!id.isEmpty())
+    item->setElementId(id);
+
+  return item;
 }
 
 #include "presentationmodel.moc"
