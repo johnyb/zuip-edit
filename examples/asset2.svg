@@ -1,0 +1,36 @@
+<g id="asset2" class="content" transform="translate(250,660) scale(1)">
+  <rect x="-510" y="-210" width="500" height="200" id="rect2989" style="opacity:0.1;fill:#008000" />
+  <rect x="10" y="-210" width="500" height="200" id="rect2991" style="opacity:0.1;fill:#008000" />
+  <rect x="-510" y="10" width="500" height="200" id="rect2993" style="opacity:0.1;fill:#ff0000" />
+  <rect x="10" y="10" width="500" height="200" id="rect2995" style="opacity:0.1;fill:#ff0000" />
+  <text style="font-size:40px;" x="270" y="-250" id="text2985" sodipodi:linespacing="125%">
+    <tspan sodipodi:role="line" id="tspan2987" x="270" y="-300">ZUI</tspan>
+    <tspan sodipodi:role="line" id="tspan2986" x="270" y="-250">Presentations</tspan>
+  </text>
+  <text style="font-size:40px;" x="-260" y="-250" id="text2993" sodipodi:linespacing="125%">
+    <tspan sodipodi:role="line" id="tspan2995" x="-260" y="-300">Slide-Show</tspan>
+    <tspan sodipodi:role="line" x="-260" y="-250" id="tspan2997">Presentations</tspan>
+  </text>
+  <text style="font-size:40px;" x="-650" y="-110" id="text3053" sodipodi:linespacing="125%">
+    <tspan sodipodi:role="line" id="tspan3055" x="-650" y="-110">advantages</tspan>
+  </text>
+  <text style="font-size:40px;" x="-650" y="110" id="text3057" sodipodi:linespacing="125%">
+    <tspan sodipodi:role="line" id="tspan3059" x="-650" y="110">Problems</tspan>
+  </text>
+  <text style="font-size:24px;text-align:left;text-anchor:start;" x="-460" y="-150" id="text3018" sodipodi:linespacing="150%">
+    <tspan sodipodi:role="line" x="-460" y="-150" id="tspan3044">Tools</tspan>
+    <tspan sodipodi:role="line" x="-460" y="-110" id="tspan3042">Experience</tspan>
+    <tspan sodipodi:role="line" x="-460" y="-70" id="tspan3034">Simplicity / linearity</tspan>
+  </text>
+  <text style="font-size:24px;text-align:left;text-anchor:start;" x="-460" y="110" id="text3050" sodipodi:linespacing="150%">
+    <tspan sodipodi:role="line" x="-460" y="110" id="tspan3056">Jumping between slides</tspan>
+  </text>
+  <text style="font-size:24px;text-align:left;text-anchor:start;" x="50" y="-150" id="text3018-6" sodipodi:linespacing="150%">
+    <tspan sodipodi:role="line" x="50" y="-150" id="tspan3044-9">Spatial coding of information</tspan>
+    <tspan sodipodi:role="line" x="50" y="-110" id="tspan3042-3">Natural way of describing a topic</tspan>
+    <tspan sodipodi:role="line" x="50" y="-70" id="tspan3034-7">Better orientation for the audience</tspan>
+  </text>
+  <text style="font-size:24px;text-align:left;text-anchor:start;" x="50" y="110" id="text3018-6-6" sodipodi:linespacing="150%">
+    <tspan sodipodi:role="line" id="tspan3034-7-7">Danger of motion-sickness</tspan>
+  </text>
+</g>
